@@ -21,9 +21,17 @@ namespace AzureCDNService.Lib
             // Create blob client and return reference to the container
             var blobStorageAccount = CloudStorageAccount.Parse(blobStorageConnectionString);
             var blobClient = blobStorageAccount.CreateCloudBlobClient();
-            return blobClient.GetContainerReference(blobStorageContainerName);
+            var container = blobClient.GetContainerReference(blobStorageContainerName);
+            container.CreateIfNotExists();
+            container.SetPermissions(
+                    new BlobContainerPermissions
+                    {
+                        PublicAccess =
+                    BlobContainerPublicAccessType.Blob
+                    });
+            return container;
         }
 
-        
+
     }
 }
