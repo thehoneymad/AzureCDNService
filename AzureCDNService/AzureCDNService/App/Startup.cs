@@ -31,9 +31,12 @@ namespace AzureCDNService.App
             var webApiDependencyResolver = new AutofacWebApiDependencyResolver(container);
             var webApiConfiguration = ConfigureWebApi(webApiDependencyResolver);
 
+            
+            app.UseWebApi(webApiConfiguration);
+            app.UseAutofacWebApi(webApiConfiguration);
         }
 
-        private object ConfigureWebApi(AutofacWebApiDependencyResolver resolver)
+        private HttpConfiguration ConfigureWebApi(AutofacWebApiDependencyResolver resolver)
         {
             var config = new HttpConfiguration();
             config.Routes.MapHttpRoute("Default",
